@@ -4,8 +4,8 @@ pipeline {
         stage('Build') {
             steps {
                 sh 'python --version'
-                ifconfig
-                hostname
+                sh 'ifconfig'
+                sh 'hostname'
             }
         }
         stage('DeployToStaging') {
@@ -29,8 +29,8 @@ pipeline {
                     )
                 }
                 sh 'python --version'
-                ifconfig
-                hostname
+                sh 'ifconfig'
+                sh 'hostname'
             }
         }
         stage('DeployToProduction') {
@@ -56,8 +56,8 @@ pipeline {
                     )
                 }
                 sh 'python --version'
-                ifconfig
-                hostname
+                sh 'ifconfig'
+                sh 'hostname'
             }
         }
     }
