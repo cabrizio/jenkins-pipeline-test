@@ -25,7 +25,7 @@ pipeline {
                                 ], 
                                 transfers: [
                                     sshTransfer(
-                                        execCommand: 'ifconfig && hostname'
+                                        execCommand: '/sbin/ifconfig && /bin/hostname'
                                     )
                                 ]
                             )
@@ -54,7 +54,7 @@ pipeline {
                                 ], 
                                 transfers: [
                                     sshTransfer(
-                                        execCommand: 'ifconfig && hostname'
+                                        execCommand: '/sbin/ifconfig && /bin/hostname'
                                     )
                                 ]
                             )
