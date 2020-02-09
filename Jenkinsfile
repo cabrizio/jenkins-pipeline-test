@@ -3,9 +3,9 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                sh 'python --version'
-                sh 'ifconfig'
-                sh 'hostname'
+                echo 'Running build automation'
+                sh './gradlew build --no-daemon'
+                archiveArtifacts artifacts: 'dist/trainSchedule.zip'
             }
         }
         stage('DeployToStaging') {
@@ -23,14 +23,16 @@ pipeline {
                                 sshCredentials: [
                                     username: "$USERNAME",
                                     encryptedPassphrase: "$USERPASS"
+                                ], 
+                                transfers: [
+                                    sshTransfer(
+                                        execCommand: 'ifconfig && hostname'
+                                    )
                                 ]
                             )
                         ]
                     )
                 }
-                sh 'python --version'
-                sh 'ifconfig'
-                sh 'hostname'
             }
         }
         stage('DeployToProduction') {
@@ -50,14 +52,16 @@ pipeline {
                                 sshCredentials: [
                                     username: "$USERNAME",
                                     encryptedPassphrase: "$USERPASS"
+                                ], 
+                                transfers: [
+                                    sshTransfer(
+                                        execCommand: 'ifconfig && hostname'
+                                    )
                                 ]
                             )
                         ]
                     )
                 }
-                sh 'python --version'
-                sh 'ifconfig'
-                sh 'hostname'
             }
         }
     }
