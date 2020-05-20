@@ -1,5 +1,8 @@
 pipeline {
     agent any
+    environment {
+        JOB_NAME.replaceFirst('^(?!/)', '/')
+    }
     stages {
         stage('Build') {
             steps {
