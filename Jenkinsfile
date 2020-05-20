@@ -9,7 +9,6 @@ pipeline {
                 sh 'ifconfig'
                 sh 'hostname'
                 sh 'echo ${JOB_NAME}'
-		sh 'echo ${env.JOB_NAME}'
             }
         }
          stage('record build env') {
