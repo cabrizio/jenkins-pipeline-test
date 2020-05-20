@@ -11,6 +11,24 @@ pipeline {
                 sh 'echo ${JOB_NAME}'
             }
         }
+         stage('record build env') {
+    		steps{
+                sh 'ifconfig > ifconfig-env.txt'
+                archiveArtifacts artifacts: 'ifconfig-env.txt', fingerprint: true
+				}
+             post{
+                always{
+                    step([  $class: 'CopyArtifact',
+                            filter: 'ifconfig-env.txt',
+                            flatten: true,
+                            fingerprintArtifacts: true,
+                            projectName: '${JOB_NAME}',
+                            selector: [
+                            $class: 'SpecificBuildSelector',
+                            buildNumber: '${BUILD_NUMBER}'
+                            ] ])
+      	    }
+        }
     }
 }
 
