@@ -1,5 +1,7 @@
 pipeline {
-    agent any
+    agent {
+        label 'deploy'
+    }
     environment {
         JOB_NAME = env.JOB_NAME.replaceFirst('%2F', '/')
     }
