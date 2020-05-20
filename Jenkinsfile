@@ -3,7 +3,7 @@ pipeline {
         label 'deploy'
     }
     environment {
-        JOB_NAME = env.JOB_NAME.replaceFirst('%2F', '/')
+        SEC_JOB_NAME = env.JOB_NAME.replaceFirst('%2F', '/')
     }
     stages {
         stage('Build') {
