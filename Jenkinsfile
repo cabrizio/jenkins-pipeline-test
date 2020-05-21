@@ -1,6 +1,8 @@
 pipeline {
     agent {
-	    node('master || deploy')
+	    node('deploy||master') {
+              // some block
+            }
     }
     environment {
         SEC_JOB_NAME = env.JOB_NAME.replaceFirst('%2F', '/')
