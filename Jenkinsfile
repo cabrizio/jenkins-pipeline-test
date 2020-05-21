@@ -12,15 +12,16 @@ def agentLabel
 
 pipeline {
     agent { node { label agentLabel } }
-    environment {
+    /*environment {
         SEC_JOB_NAME = env.JOB_NAME.replaceFirst('%2F', '/')
-    }
+    }*/
     stages {
         stage('Build') {
             steps {
                 sh 'ifconfig'
                 sh 'hostname'
                 sh 'echo ${JOB_NAME}'
+                sh 'echo ${BRANCH_NAME}'
             }
         }
          stage('record build env') {
