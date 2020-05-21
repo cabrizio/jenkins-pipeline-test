@@ -1,9 +1,9 @@
 def agentLabel
- if (BRANCH_NAME == 'deploy/QA') {
+ if (BRANCH_NAME_new == 'deploy/QA') {
     agentLabel = "deploy"
- } else if (BRANCH_NAME == 'deploy/staging') {
+ } else if (BRANCH_NAME_new == 'deploy/staging') {
     agentLabel = "STAGE-NJ01"
- } else if (BRANCH_NAME == 'deploy/production') {
+ } else if (BRANCH_NAME_new == 'deploy/production') {
     agentLabel = "PROD-NJ01"
  } else {
     agentLabel = "master"
@@ -11,10 +11,11 @@ def agentLabel
 
 
 pipeline {
-    agent { node { label agentLabel } }
-    /*environment {
-        SEC_JOB_NAME = env.JOB_NAME.replaceFirst('%2F', '/')
-    }*/
+    agent {  label agentLabel }
+    environment {
+        //SEC_JOB_NAME = env.JOB_NAME.replaceFirst('%2F', '/')
+	BRANCH_NAME_new = env.BRANCH_NAME
+    }
     stages {
         stage('Build') {
             steps {
@@ -22,6 +23,7 @@ pipeline {
                 sh 'hostname'
                 sh 'echo ${JOB_NAME}'
                 sh 'echo ${BRANCH_NAME}'
+		sh 'echo $BRANCH_NAME_new'
             }
         }
          stage('record build env') {
