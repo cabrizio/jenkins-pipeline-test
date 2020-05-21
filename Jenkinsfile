@@ -1,5 +1,5 @@
 pipeline {
-    agent {  label delpoy || !master }
+    agent {  label 'delpoy || !master' }
     environment {
         //SEC_JOB_NAME = env.JOB_NAME.replaceFirst('%2F', '/')
 	//BRANCH_NAME_new = '${BRANCH_NAME}'
