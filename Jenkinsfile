@@ -1,6 +1,6 @@
 pipeline {
     agent {
-        label 'deploy || master'
+        label 'master || deploy'
     }
     environment {
         SEC_JOB_NAME = env.JOB_NAME.replaceFirst('%2F', '/')
