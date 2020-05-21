@@ -14,7 +14,7 @@ pipeline {
     agent {  label agentLabel }
     environment {
         //SEC_JOB_NAME = env.JOB_NAME.replaceFirst('%2F', '/')
-	BRANCH_NAME_new = env.BRANCH_NAME
+	BRANCH_NAME_new = ${BRANCH_NAME}
     }
     stages {
         stage('Build') {
