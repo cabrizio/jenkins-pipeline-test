@@ -1,7 +1,5 @@
 pipeline {
-    agent {
-	    label 'deploy'
-    }
+    agent { node { label 'deploy' } }
     environment {
         SEC_JOB_NAME = env.JOB_NAME.replaceFirst('%2F', '/')
     }
