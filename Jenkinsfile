@@ -34,7 +34,7 @@ pipeline {
                                         sourceFiles: 'ifconfig-env.txt',
                                         //removePrefix: '.',
                                         remoteDirectory: 'jenkins_file/',
-                                        //execCommand: 'sudo cat /tmp/ifconfig-env.txt'
+                                        execCommand: 'sudo cat jenkins_file/ifconfig-env.txt'
                                     )
                                 ]
                             )
