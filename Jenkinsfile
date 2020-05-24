@@ -43,20 +43,8 @@ pipeline {
                 }
             }
         }
-        post{
-          always{
-                    step([  $class: 'CopyArtifact',
-                            filter: 'ifconfig-env.txt',
-                            flatten: true,
-                            fingerprintArtifacts: true,
-                            projectName: '${JOB_NAME}',
-                            selector: [
-                            $class: 'SpecificBuildSelector',
-                            buildNumber: '${BUILD_NUMBER}'
-                            ] ])
-                }
-            }
-        }
     }
+}
+
     
 
