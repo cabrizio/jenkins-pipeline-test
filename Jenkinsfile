@@ -34,7 +34,6 @@ pipeline {
                                         sourceFiles: 'ifconfig-env.txt',
                                         removePrefix: '.',
                                         remoteDirectory: '/tmp',
-                                        execCommand: 'sudo cat /tmp/ifconfig-env.txt'
                                     )
                                 ]
                             )
