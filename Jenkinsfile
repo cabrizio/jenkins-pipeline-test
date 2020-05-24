@@ -1,9 +1,5 @@
 pipeline {
     agent {  label 'master' }
-    environment {
-        //SEC_JOB_NAME = env.JOB_NAME.replaceFirst('%2F', '/')
-	//BRANCH_NAME_new = '${BRANCH_NAME}'
-    }
     stages {
         stage('Build') {
             steps {
@@ -11,16 +7,16 @@ pipeline {
                 sh 'hostname'
                 sh 'echo ${JOB_NAME}'
                 sh 'echo ${BRANCH_NAME}'
-		sh 'echo $BRANCH_NAME_new'
+        sh 'echo $BRANCH_NAME_new'
             }
         }
          stage('record build env') {
-    		steps{
+            steps{
                 sh 'ifconfig > ifconfig-env.txt'
                 archiveArtifacts artifacts: 'ifconfig-env.txt', fingerprint: true
-		}
-	 }
-         stage('DeployToTest') {
+        }
+     }
+     stage('DeployToTest') {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'jenkins_user', usernameVariable: 'USERNAME', passwordVariable: 'USERPASS')]) {
                     sshPublisher(
@@ -44,10 +40,11 @@ pipeline {
                             )
                         ]
                     )
-		}
-	    }
-             post{
-                always{
+                }
+            }
+        }
+        post{
+          always{
                     step([  $class: 'CopyArtifact',
                             filter: 'ifconfig-env.txt',
                             flatten: true,
@@ -57,9 +54,9 @@ pipeline {
                             $class: 'SpecificBuildSelector',
                             buildNumber: '${BUILD_NUMBER}'
                             ] ])
-		}
-	     }
-	 }
+                }
+            }
+        }
     }
-}
+    
 
