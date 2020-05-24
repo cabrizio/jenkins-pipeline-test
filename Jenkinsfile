@@ -20,7 +20,7 @@ pipeline {
          stage ('Decide auto deployment') {
             steps {
                 script {
-                    if ( env.BRANCH_NAME == 'deploy/QA') {
+                    if ( env.BRANCH_NAME == 'develop/QA') {
                         env.DEPLOY_PACKAGE = input message: 'Admin permission required',
                         parameters: [choice(name: 'To be Deployed', choices: 'no\nyes', description: 'Choose "yes" if you want to deploy this build')]
                     } else {
