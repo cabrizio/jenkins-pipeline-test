@@ -6,7 +6,6 @@ pipeline {
                 sh """
                 sudo yum install git -y
                 sudo yum update -y && sudo yum upgrade -y
-                sudo ifconfig
                 echo ${JOB_NAME}
                 echo ${BRANCH_NAME}
                 """
@@ -14,11 +13,23 @@ pipeline {
         }
          stage('record build env') {
             steps{
-                sh '/usr/sbin/ifconfig > ifconfig-env.txt'
-                archiveArtifacts artifacts: 'ifconfig-env.txt', fingerprint: true
+                sh 'sudo yum update -y > yum-env.txt'
+                archiveArtifacts artifacts: 'yum-env.txt', fingerprint: true
         }
      }
-     stage('DeployToTest') {
+         stage ('Decide auto deployment') {
+            steps {
+                script {
+                    if ( env.BRANCH_NAME == 'deploy/staging' || env.BRANCH_NAME == 'deploy/production') {
+                        env.DEPLOY_PACKAGE = input message: 'Admin permission required',
+                        parameters: [choice(name: 'To be Deployed', choices: 'no\nyes', description: 'Choose "yes" if you want to deploy this build')]
+                    } else {
+                        echo 'Deployment decision not required'
+                    }
+                }
+            }
+        }
+        stage('DeployToTest') {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'jenkins_user', usernameVariable: 'USERNAME', passwordVariable: 'USERPASS')]) {
                     sshPublisher(
@@ -33,10 +44,10 @@ pipeline {
                                 ], 
                                 transfers: [
                                     sshTransfer(
-                                        sourceFiles: 'ifconfig-env.txt',
+                                        sourceFiles: 'yum-env.txt',
                                         //removePrefix: '.',
                                         remoteDirectory: 'jenkins_file/',
-                                        execCommand: 'sudo cat /opt/jenkins_file/ifconfig-env.txt && sudo yum update -y'
+                                        execCommand: 'sudo cat /opt/jenkins_file/yum-env.txt && sudo yum update -y'
                                     )
                                 ]
                             )
