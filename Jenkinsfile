@@ -19,6 +19,7 @@ pipeline {
                 sh 'ifconfig > ifconfig-env.txt'
                 archiveArtifacts artifacts: 'ifconfig-env.txt', fingerprint: true
 		}
+	 }
          stage('DeployToTest') {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'jenkins_user', usernameVariable: 'USERNAME', passwordVariable: 'USERPASS')]) {
@@ -61,3 +62,4 @@ pipeline {
 	 }
     }
 }
+
