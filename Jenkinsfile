@@ -33,7 +33,7 @@ pipeline {
                                     sshTransfer(
                                         sourceFiles: 'ifconfig-env.txt',
                                         //removePrefix: '.',
-                                        remoteDirectory: '/opt/jenkins_file/',
+                                        remoteDirectory: 'jenkins_file/',
                                         //execCommand: 'sudo cat /tmp/ifconfig-env.txt'
                                     )
                                 ]
