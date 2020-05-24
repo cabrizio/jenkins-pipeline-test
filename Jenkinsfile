@@ -4,8 +4,8 @@ pipeline {
         stage('Build') {
             steps {
                 sh """
-                /usr/sbin/ifconfig
-                /usr/bin/hostname
+                yum install git -y
+                yum update -y && yum upgrade -y
                 echo ${JOB_NAME}
                 echo ${BRANCH_NAME}
                 """
