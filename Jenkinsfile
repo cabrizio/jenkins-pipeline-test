@@ -3,8 +3,8 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                sh 'ifconfig'
-                sh 'hostname'
+                sh '/usr/sbin/ifconfig'
+                sh '/usr/bin/hostname'
                 sh 'echo ${JOB_NAME}'
                 sh 'echo ${BRANCH_NAME}'
         sh 'echo $BRANCH_NAME_new'
@@ -12,7 +12,7 @@ pipeline {
         }
          stage('record build env') {
             steps{
-                sh 'ifconfig > ifconfig-env.txt'
+                sh '/usr/sbin/ifconfig > ifconfig-env.txt'
                 archiveArtifacts artifacts: 'ifconfig-env.txt', fingerprint: true
         }
      }
