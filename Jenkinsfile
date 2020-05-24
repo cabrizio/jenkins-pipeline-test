@@ -3,11 +3,12 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                sh "/usr/sbin/ifconfig"
-                sh "/usr/bin/hostname"
-                sh 'echo ${JOB_NAME}'
-                sh 'echo ${BRANCH_NAME}'
-        sh 'echo $BRANCH_NAME_new'
+                sh """
+                /usr/sbin/ifconfig
+                /usr/bin/hostname
+                echo ${JOB_NAME}
+                echo ${BRANCH_NAME}
+                """
             }
         }
          stage('record build env') {
