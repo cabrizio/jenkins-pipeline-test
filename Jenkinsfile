@@ -5,7 +5,7 @@ pipeline {
             steps {
                 sh """
                 sudo yum install git -y
-                sudo yum update -y && yum upgrade -y
+                sudo yum update -y && sudo yum upgrade -y
                 sudo ifconfig
                 echo ${JOB_NAME}
                 echo ${BRANCH_NAME}
