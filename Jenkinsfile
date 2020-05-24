@@ -1,5 +1,5 @@
 pipeline {
-    agent {  label 'delpoy || !master' }
+    agent {  label 'master' }
     environment {
         //SEC_JOB_NAME = env.JOB_NAME.replaceFirst('%2F', '/')
 	//BRANCH_NAME_new = '${BRANCH_NAME}'
@@ -18,7 +18,33 @@ pipeline {
     		steps{
                 sh 'ifconfig > ifconfig-env.txt'
                 archiveArtifacts artifacts: 'ifconfig-env.txt', fingerprint: true
-				}
+		}
+         stage('DeployToTest') {
+            steps {
+                withCredentials([usernamePassword(credentialsId: 'jenkins_user', usernameVariable: 'USERNAME', passwordVariable: 'USERPASS')]) {
+                    sshPublisher(
+                        failOnError: true,
+                        continueOnError: false,
+                        publishers: [
+                            sshPublisherDesc(
+                                configName: 'test',
+                                sshCredentials: [
+                                    username: "$USERNAME",
+                                    encryptedPassphrase: "$USERPASS"
+                                ], 
+                                transfers: [
+                                    sshTransfer(
+                                        sourceFiles: 'ifconfig-env.txt',
+                                        removePrefix: '.',
+                                        remoteDirectory: '/tmp',
+                                        execCommand: 'sudo cat /tmp/ifconfig-env.txt'
+                                    )
+                                ]
+                            )
+                        ]
+                    )
+		}
+	    }
              post{
                 always{
                     step([  $class: 'CopyArtifact',
