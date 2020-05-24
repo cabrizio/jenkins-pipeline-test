@@ -32,8 +32,9 @@ pipeline {
                                 transfers: [
                                     sshTransfer(
                                         sourceFiles: 'ifconfig-env.txt',
-                                        removePrefix: '.',
+                                        //removePrefix: '.',
                                         remoteDirectory: '/tmp',
+                                        //execCommand: 'sudo cat /tmp/ifconfig-env.txt'
                                     )
                                 ]
                             )
