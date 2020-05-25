@@ -33,7 +33,7 @@ pipeline {
             steps {
                 script {
                     if (env.DEPLOY_PACKAGE == 'yes') {
-                      withCredentials([usernamePassword(credentialsId: 'jenkins_user', usernameVariable: 'USERNAME', passwordVariable: 'USERPASS')]) {
+                      withCredentials([usernamePassword(credentialsId: 'jenkins_root_key', usernameVariable: 'USERNAME')]) {
                        sshPublisher(
                         failOnError: true,
                         continueOnError: false,
@@ -41,8 +41,8 @@ pipeline {
                             sshPublisherDesc(
                                 configName: 'test',
                                 sshCredentials: [
-                                    username: "$USERNAME",
-                                    encryptedPassphrase: "$USERPASS"
+                                    username: "$USERNAME"
+                                    //encryptedPassphrase: "$USERPASS"
                                 ], 
                                 transfers: [
                                     sshTransfer(
