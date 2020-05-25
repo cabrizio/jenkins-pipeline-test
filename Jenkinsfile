@@ -33,7 +33,7 @@ pipeline {
             steps {
                 script {
                     if (env.DEPLOY_PACKAGE == 'yes' && env.DEPLOY_ENV == 'staging') {
-                      withCredentials([usernamePassword(credentialsId: 'jenkins_root_key', usernameVariable: 'USERNAME')]) {
+                      withCredentials([usernamePassword(credentialsId: 'jenkins_user', usernameVariable: 'USERNAME')]) {
                        sshPublisher(
                         failOnError: true,
                         continueOnError: false,
@@ -57,12 +57,12 @@ pipeline {
                     )
                     } else {
                         echo 'QA Deploy not required'
-                      }
                     }
                 }
             }
         }
     }
+}
 }
 
 
