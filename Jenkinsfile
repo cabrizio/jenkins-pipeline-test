@@ -38,7 +38,7 @@ pipeline {
             steps {
                 script {
                     if (env.DEPLOY_PACKAGE == 'yes') {
-                     sshagent (credentials: ['deploy-dev']) {
+                     sshagent (credentials: ['jenkins_root_key']) {
                       sh 'ssh -o StrictHostKeyChecking=no -l root 192.168.9.97 uname -a'
                        }
                      }
