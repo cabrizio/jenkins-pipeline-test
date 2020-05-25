@@ -39,7 +39,7 @@ pipeline {
                 script {
                     if (env.DEPLOY_PACKAGE == 'yes') {
                       withCredentials([sshUserPrivateKey(credentialsId: 'jenkins_root_key', keyFileVariable: 'identity', passphraseVariable: '', usernameVariable: 'userName')]) {
-                        remote.user = root
+                        remote.user = userName
                         remote.identityFile = identity
                         stage("SSH Steps Rocks!") {
                          writeFile file: 'abc.sh', text: 'ls'
