@@ -57,13 +57,14 @@ pipeline {
                     )
                     } else {
                         echo 'QA Deploy not required'
-                    }
+                      }
                     }
                 }
             }
         }
     }
 }
+
 
     
 
