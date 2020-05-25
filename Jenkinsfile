@@ -33,7 +33,7 @@ pipeline {
             steps {
                 script {
                     if (env.DEPLOY_PACKAGE == 'yes') {
-                      withCredentials([sshUserPrivateKey(credentialsId: 'jenkins_root_key', keyFileVariable: '/root/.ssh/id_rsa')]) {
+                      withCredentials([sshUserPrivateKey(credentialsId: 'jenkins_root_key', usernameVariable: 'root', keyFileVariable: 'identity')]) {
                        sshPublisher(
                         failOnError: true,
                         continueOnError: false,
