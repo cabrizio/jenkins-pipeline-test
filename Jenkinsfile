@@ -33,12 +33,13 @@ pipeline {
             steps {
                 script {
                     if (env.DEPLOY_PACKAGE == 'yes') {
-                      withCredentials([sshUserPrivateKey(credentialsId: 'jenkins_root_key')]) {
+                      withCredentials([sshUserPrivateKey(credentialsId: 'jenkins_root_key', keyFileVariable: '/root/.ssh/id_rsa')]) {
                        sshPublisher(
                         failOnError: true,
                         continueOnError: false,
                         publishers: [
                             sshPublisherDesc(
+                                configName: 'test',
                                 transfers: [
                                     sshTransfer(
                                         sourceFiles: 'yum-env.txt',
