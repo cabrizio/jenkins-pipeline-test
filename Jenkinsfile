@@ -1,5 +1,5 @@
 pipeline {
-    agent {  label 'master' }
+    agent {  label 'deploy' }
     stages {
         stage('Build') {
             steps {
@@ -29,10 +29,12 @@ pipeline {
                 }
             }
         }
-        stage('DeployToTest') {
+        stage ('DeployToTest') {
             steps {
-                withCredentials([usernamePassword(credentialsId: 'jenkins_user', usernameVariable: 'USERNAME', passwordVariable: 'USERPASS')]) {
-                    sshPublisher(
+                script {
+                    if (env.DEPLOY_PACKAGE == 'yes' && env.DEPLOY_ENV == 'staging') {
+                      withCredentials([usernamePassword(credentialsId: 'jenkins_root_key', usernameVariable: 'USERNAME')]) {
+                       sshPublisher(
                         failOnError: true,
                         continueOnError: false,
                         publishers: [
@@ -40,7 +42,7 @@ pipeline {
                                 configName: 'test',
                                 sshCredentials: [
                                     username: "$USERNAME",
-                                    encryptedPassphrase: "$USERPASS"
+                                    //encryptedPassphrase: "$USERPASS"
                                 ], 
                                 transfers: [
                                     sshTransfer(
@@ -53,6 +55,10 @@ pipeline {
                             )
                         ]
                     )
+                    } else {
+                        echo 'QA Deploy not required'
+                    }
+                    }
                 }
             }
         }
