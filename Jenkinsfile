@@ -32,8 +32,8 @@ pipeline {
         stage ('DeployToTest') {
             steps {
                 script {
-                    if (env.DEPLOY_PACKAGE == 'yes' && env.DEPLOY_ENV == 'staging') {
-                      withCredentials([sshUserPrivateKey(credentialsId: 'sshUser', keyFileVariable: 'identity', passphraseVariable: '', usernameVariable: 'userName')]) {
+                    if (env.DEPLOY_PACKAGE == 'yes') {
+                      withCredentials([sshUserPrivateKey(credentialsId: 'jenkins_root_key', keyFileVariable: 'identity', passphraseVariable: '', usernameVariable: 'userName')]) {
                         remote.user = root
                         remote.identityFile = identity
                         stage("SSH Steps Rocks!") {
