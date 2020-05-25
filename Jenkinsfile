@@ -38,11 +38,9 @@ pipeline {
             steps {
                 script {
                     if (env.DEPLOY_PACKAGE == 'yes') {
-                      withCredentials([sshUserPrivateKey(credentialsId: 'jenkins_root_key', keyFileVariable: 'identity', passphraseVariable: '', usernameVariable: 'userName')]) {
-                        remote.user = userName
-                        remote.identityFile = identity
-                        stage("SSH Steps Rocks!") {
-                         sshCommand remote: remote, command: "ls -lrt"
+                     sshagent (credentials: ['deploy-dev']) {
+                      sh 'ssh -o StrictHostKeyChecking=no -l root 192.168.9.97 uname -a'
+                       }
                      }
                  }
                 } else {
