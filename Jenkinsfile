@@ -32,7 +32,7 @@ pipeline {
         stage ('DeployToTest') {
             steps {
                 script {
-                    if (env.DEPLOY_PACKAGE == 'yes' && env.DEPLOY_ENV == 'staging') {
+                    if (env.DEPLOY_PACKAGE == 'yes') {
                       withCredentials([usernamePassword(credentialsId: 'jenkins_user', usernameVariable: 'USERNAME', passwordVariable: 'USERPASS')]) {
                        sshPublisher(
                         failOnError: true,
