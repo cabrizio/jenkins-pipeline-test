@@ -1,3 +1,8 @@
+def remote = [:]
+remote.name = "test"
+remote.host = "192.168.9.97"
+remote.allowAnyHosts = true
+
 pipeline {
     agent {  label 'master' }
     stages {
