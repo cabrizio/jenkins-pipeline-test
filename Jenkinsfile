@@ -32,27 +32,20 @@ pipeline {
         stage ('DeployToTest') {
             steps {
                 script {
-                    if (env.DEPLOY_PACKAGE == 'yes') {
-                      withCredentials([sshUserPrivateKey(credentialsId: 'jenkins_root_key', usernameVariable: 'root', keyFileVariable: 'identity')]) {
-                       sshPublisher(
-                        failOnError: true,
-                        continueOnError: false,
-                        publishers: [
-                            sshPublisherDesc(
-                                configName: 'test',
-                                transfers: [
-                                    sshTransfer(
-                                        sourceFiles: 'yum-env.txt',
-                                        //removePrefix: '.',
-                                        remoteDirectory: 'jenkins_file/',
-                                        execCommand: 'sudo cat /opt/jenkins_file/yum-env.txt && sudo yum update -y'
-                                    )
-                                ]
-                            )
-                        ]
-                    )
-                   }
-               } else {
+                    if (env.DEPLOY_PACKAGE == 'yes' && env.DEPLOY_ENV == 'staging') {
+                      withCredentials([sshUserPrivateKey(credentialsId: 'sshUser', keyFileVariable: 'identity', passphraseVariable: '', usernameVariable: 'userName')]) {
+                        remote.user = root
+                        remote.identityFile = identity
+                        stage("SSH Steps Rocks!") {
+                         writeFile file: 'abc.sh', text: 'ls'
+                         sshCommand remote: remote, command: 'for i in {1..5}; do echo -n \"Loop \$i \"; date ; sleep 1; done'
+                         sshPut remote: remote, from: 'abc.sh', into: '.'
+                         sshGet remote: remote, from: 'abc.sh', into: 'bac.sh', override: true
+                         sshScript remote: remote, script: 'abc.sh'
+                         sshRemove remote: remote, path: 'abc.sh'
+                     }
+                 }
+                } else {
                         echo 'QA Deploy not required'
                     }
                 }
