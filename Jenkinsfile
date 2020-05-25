@@ -39,7 +39,6 @@ pipeline {
                         continueOnError: false,
                         publishers: [
                             sshPublisherDesc(
-                                configName: 'test',
                                 transfers: [
                                     sshTransfer(
                                         sourceFiles: 'yum-env.txt',
